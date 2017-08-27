@@ -36,7 +36,7 @@ public class Tupla {
         this.Y = Y;
     }
     
-    public void redondearTupla() {
+    public void redondearValores() {
         if (this.X != null) {
             this.X = Math.round(this.X * 1e4) / 1e4;
         }
