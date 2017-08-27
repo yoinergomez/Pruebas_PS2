@@ -35,4 +35,13 @@ public class Tupla {
     public void setY(Double Y) {
         this.Y = Y;
     }
+    
+    public void redondearTupla() {
+        if (this.X != null) {
+            this.X = Math.round(this.X * 1e4) / 1e4;
+        }
+        if (this.Y != null) {
+            this.Y = Math.round(this.Y * 1e4) / 1e4;
+        }
+    }
 }
