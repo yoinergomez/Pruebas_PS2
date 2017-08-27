@@ -1,0 +1,15 @@
+language: java
+dist: precise
+
+install:
+  - sudo pip install requests[security]
+  - sudo pip install coveralls
+
+script:
+  - mvn test -B
+
+jdk:
+  - oraclejdk8
+
+after_success:
+  - mvn clean test jacoco:report coveralls:report
