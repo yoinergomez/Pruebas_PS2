@@ -33,19 +33,32 @@ public class AritmeticaLDLTest {
     }
 
     /**
-     * Test of sumatoriaXY method, of class AritmeticaLDL.
+     * Prueba que la funcion sumatoriaXY retorne el valor correspodiente 
+     * con datos pertenecientes al conjunto de los reales
      */
-//    @Test
-//    public void testSumatoriaXY() {
-//        System.out.println("sumatoriaXY");
-//        LDL lista = null;
-//        AritmeticaLDL instance = new AritmeticaLDL();
-//        Double expResult = null;
-//        Double result = instance.sumatoriaXY(lista);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testSumatoriaXY() {
+        Double aux = 1778.8544;
+        Double resultado = instancia.sumatoriaXY(lista);
+        assertEquals(aux, resultado);
+    }
+    
+    /**
+     * Prueba que la funcion sumatoriaXY retorne el valor correspodiente 
+     * con datos pertenecientes al conjunto de los enteros
+     */
+    @Test
+    public void testSumatoriaEnteros() {
+        Double aux = 10.0;
+        LDL listaPrueba = new LDL();
+        
+        listaPrueba.insertar(new NodoDoble(new Tupla(1.0, 5.0)));
+        listaPrueba.insertar(new NodoDoble(new Tupla(2.0, 6.0)));
+        listaPrueba.insertar(new NodoDoble(new Tupla(-7.0, 1.0)));
+        
+        Double resultado = instancia.sumatoriaXY(listaPrueba);
+        assertEquals(aux, resultado);
+    }
 
     /**
      * Prueba que la X de la lista ligada sea sumado correctamente
