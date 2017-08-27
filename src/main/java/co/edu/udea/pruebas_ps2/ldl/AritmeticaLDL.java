@@ -17,9 +17,15 @@ import co.edu.udea.pruebas_ps2.modelo.Tupla;
 public class AritmeticaLDL {
     
     public Double sumatoriaXY(LDL lista) {
-        Double suma = new Double("0");
+        Double suma = new Double(0);
         
-        return suma;
+        NodoDoble aux = lista.getPrimerNodo();
+        while (aux != null) {
+            suma += getX(aux)*getY(aux);
+            aux = aux.getSiguiente(); // Mover al siguiente nodo
+        }
+        
+        return Math.round(suma * 1e4) / 1e4;
     }
     
     /**
@@ -30,8 +36,8 @@ public class AritmeticaLDL {
      */
     public Tupla suma(LDL lista) {
         Tupla resultado;
-        Double sumaX = new Double("0");
-        Double sumaY = new Double("0");
+        Double sumaX = new Double(0);
+        Double sumaY = new Double(0);
         
         NodoDoble aux = lista.getPrimerNodo();
         while (aux != null) {
