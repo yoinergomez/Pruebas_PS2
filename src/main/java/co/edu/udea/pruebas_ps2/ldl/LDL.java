@@ -16,7 +16,7 @@ public class LDL {
     private NodoDoble ultimo;
 
     public LDL() {
-        Tupla tupla = new Tupla(new Double("0"), new Double("0"));
+        Tupla tupla = new Tupla(new Double("0"), null);
         cabeza = new NodoDoble(null, null, tupla);
         ultimo = cabeza;
     }
