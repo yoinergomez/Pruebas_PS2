@@ -124,19 +124,35 @@ public class AritmeticaLDLTest {
     }
     
     /**
-     * Test of potencia method, of class AritmeticaLDL.
+     * Prueba que la X de la lista ligada sea elevada correctamente
      */
-//    @Test
-//    public void testPotencia() {
-//        System.out.println("potencia");
-//        LDL lista = null;
-//        int exponente = 0;
-//        AritmeticaLDL instance = new AritmeticaLDL();
-//        LDL expResult = null;
-//        LDL result = instance.potencia(lista, exponente);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testPotenciaX() {
+        Double aux = 6.25;
+        LDL listaPrueba = new LDL();
+        
+        listaPrueba.insertar(new NodoDoble(new Tupla(2.5, 5.0)));
+        listaPrueba.insertar(new NodoDoble(new Tupla(2.0, 6.0)));
+
+        listaPrueba = instancia.potencia(listaPrueba, 2);
+        
+        assertEquals(aux, listaPrueba.getPrimerNodo().getDato().getX());
+    }
+    
+    /**
+     * Prueba que la Y de la lista ligada sea elevada correctamente
+     */
+    @Test
+    public void testPotenciaY() {
+        Double aux = 25.0;
+        LDL listaPrueba = new LDL();
+        
+        listaPrueba.insertar(new NodoDoble(new Tupla(2.555555, 5.0)));
+        listaPrueba.insertar(new NodoDoble(new Tupla(2.0, 6.0)));
+
+        listaPrueba = instancia.potencia(listaPrueba, 2);
+        
+        assertEquals(aux, listaPrueba.getPrimerNodo().getDato().getY());
+    }
     
 }

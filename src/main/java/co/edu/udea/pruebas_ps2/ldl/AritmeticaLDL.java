@@ -16,6 +16,12 @@ import co.edu.udea.pruebas_ps2.modelo.Tupla;
  */
 public class AritmeticaLDL {
     
+    /**
+     * Realiza una sumatoria de la forma ∑(x*y) para cada tupla de la
+     * lista ligada ingresada como argumento
+     * @param lista
+     * @return 
+     */
     public Double sumatoriaXY(LDL lista) {
         Double suma = new Double(0);
         
@@ -30,7 +36,6 @@ public class AritmeticaLDL {
     
     /**
      * Suma los datos X y Y de la lista ligada de manera independiente
-     * @author Yoiner Gómez - yoiner.gomez22@gmail.com
      * @param lista
      * @return 
      */
@@ -52,10 +57,36 @@ public class AritmeticaLDL {
         return resultado;
     }
     
+    /**
+     * Eleva cada valor de la tupla perteneciente a 
+     * la lista ligada ingresada como argumento
+     * @param lista
+     * @param exponente
+     * @return lista ligada con cada tupla elevada al argumento exponente
+     */
     public LDL potencia(LDL lista, int exponente) {
-        return lista;
+        LDL resultado = new LDL();
+        Double x;
+        Double y;
+        
+        NodoDoble aux = lista.getPrimerNodo();
+        while (aux != null) {
+            x = Math.pow(getX(aux), exponente);
+            y = Math.pow(getY(aux), exponente);
+            
+            resultado.insertar(new NodoDoble(new Tupla(x, y)));
+            aux = aux.getSiguiente(); // Mover al siguiente nodo
+        }
+        
+        return resultado;
     }
     
+    /**
+     * Obtiene el valor de X de la tupla que pertenece al nodo
+     * ingresado como argumento de la función
+     * @param nodo
+     * @return 
+     */
     private Double getX(NodoDoble nodo) {
         if (nodo.getDato() != null && nodo.getDato().getX() != null) {
             return nodo.getDato().getX();
@@ -63,6 +94,12 @@ public class AritmeticaLDL {
         return new Double(0);
     }
     
+    /**
+     * Obtiene el valor de Y de la tupla que pertenece al nodo
+     * ingresado como argumento de la función
+     * @param nodo
+     * @return 
+     */
     private Double getY(NodoDoble nodo) {
         if (nodo.getDato() != null && nodo.getDato().getY() != null) {
             return nodo.getDato().getY();
