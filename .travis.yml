@@ -5,8 +5,10 @@ install:
   - sudo pip install requests[security]
   - sudo pip install coveralls
 
-script:
-  - mvn test -B
+branches:
+  only:
+  - master
+  - develop
 
 jdk:
   - oraclejdk8
