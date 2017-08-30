@@ -17,6 +17,31 @@ import co.edu.udea.pruebas_ps2.modelo.Tupla;
 public class AritmeticaLDL {
     
     /**
+     * Retorna el promedio de X o Y
+     *
+     * @param lista
+     * @param tipo 1 para realizar el promedio por X y 2 para hacerlo por Y
+     * @return el promedio de la lista ligada
+     */
+    public Double promedio(LDL lista, int tipo) {
+        Double suma = new Double("0");
+        NodoDoble puntero = lista.getPrimerNodo();
+        while (puntero != null) {
+            if (tipo == 1) {
+                suma = suma + puntero.getDato().getX();
+            } else if (tipo == 2) {
+                suma = suma + puntero.getDato().getY();
+            }
+            puntero = puntero.getSiguiente();
+        }
+        int total = lista.longitud();
+        if (total != 0) {
+            suma = suma / total;
+        }
+        return suma;
+    }
+
+    /**
      * Realiza una sumatoria de la forma ∑(x*y) para cada tupla de la
      * lista ligada ingresada como argumento
      * @param lista
