@@ -62,10 +62,11 @@ public class ArchivoIO {
 
     /**
      * Método que permite abrir el libro de Excel.
+     *
      * @param f El archivo de Excel
      * @return
      * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
     public Workbook abrirLibroExcel(File f) throws FileNotFoundException,
             IOException {
@@ -77,25 +78,29 @@ public class ArchivoIO {
 
     /**
      * Convierte los datos guardados en el archivo de Excel en un ArrayList de
-     * tipo LDL de dos posiciones. La posición cero es una LDL que contiene
-     * las tuplas (x,y) que serán usadas para la regresión. La posición uno es una
-     * LDL que tiene los x que el usuario quiere que la regresión estime.
+     * tipo LDL de dos posiciones. La posición cero es una LDL que contiene las
+     * tuplas (x,y) que serán usadas para la regresión. La posición uno es una
+     * LDL que tiene los x de prueba con los que el usuario quiere predecir y,
+     * con base en la regresión.
+     *
      * @param nombreArchivo Ruta del archivo.
-     * @return 
+     * @return
      * @throws FileNotFoundException
      * @throws ValidacionPS2
-     * @throws IOException 
+     * @throws IOException
      */
-    public ArrayList<LDL> convertirExcelALDL(String nombreArchivo) throws FileNotFoundException,
-            ValidacionPS2, IOException {
+    public ArrayList<LDL> convertirExcelALDL(String nombreArchivo) throws
+            FileNotFoundException, ValidacionPS2, IOException {
         File f = encontrarArchivo(nombreArchivo);
         workbook = abrirLibroExcel(f);
         sheet = workbook.getSheetAt(0);
         LDL datosRegresion = new LDL();
         LDL datosEstimacion = new LDL();
-        ArrayList<LDL> datos= new ArrayList();
+        ArrayList<LDL> datos = new ArrayList();
         Tupla t1, t2;
         NodoDoble nodoT1, nodoT2;
+        boolean existeXprueba = false;
+        boolean existeDatos = false;
         int indiceColumna;
         Iterator<Row> rowIterator = sheet.iterator();
         while (rowIterator.hasNext()) {
@@ -106,30 +111,32 @@ public class ArchivoIO {
             while (cellIterator.hasNext()) {
                 Cell celda = cellIterator.next();
                 indiceColumna = celda.getColumnIndex();
-                switch (indiceColumna) {
-                    case 0:
-                        if(esCeldaValida(celda)){
+                if (esCeldaValida(celda)) {
+                    switch (indiceColumna) {
+                        case 0:
                             t1.setX(celda.getNumericCellValue());
-                        }else{
-                            throw new ValidacionPS2("El par (x,y) está incompleto."
-                                    + " La x está vacia.");
-                        }
-                        
-                        break;
-                    case 1:
-                        if(esCeldaValida(celda)){
+                            existeDatos = true;
+                            break;
+
+                        case 1:
                             t1.setY(celda.getNumericCellValue());
-                        }else{
-                            throw new ValidacionPS2("El par (x,y) está incompleto."
-                                    + " La y está vacia.");
-                        }
-                        break;
-                    case 2:
-                        if(esCeldaValida(celda)){
+                            break;
+
+                        case 2:
                             t2.setX(celda.getNumericCellValue());
-                        }           
-                        break;
+                            existeXprueba = true;
+                            break;
+                    }
                 }
+
+            }
+            if (t1.getX() == null) {
+                throw new ValidacionPS2("Existe al menos un par (x,y) que está "
+                        + "incompleto.La x esta vacia");
+            }
+            if (t1.getY() == null) {
+                throw new ValidacionPS2("Existe al menos un par (x,y) que está "
+                        + "incompleto.La y esta vacia");
             }
             nodoT1 = new NodoDoble(t1);
             nodoT2 = new NodoDoble(t2);
@@ -137,18 +144,27 @@ public class ArchivoIO {
             datosEstimacion.insertar(nodoT2);
 
         }
-        
+        if (!existeDatos) {
+            throw new ValidacionPS2("No existen datos");
+        }
+        if (!existeXprueba) {
+            throw new ValidacionPS2("Ingrese al menos un x de prueba para validar"
+                    + " la regresión");
+        }
+
         datos.add(datosRegresion);
         datos.add(datosEstimacion);
         return datos;
     }
-    
+
     public boolean esCeldaValida(Cell celda) throws ValidacionPS2 {
         if (celda == null || celda.getCellType() == Cell.CELL_TYPE_BLANK) {
+            CellReference cr = new CellReference(celda);
+            System.out.println("entre al false de celda vacia" + cr.formatAsString());
             return false;
         } else if (celda.getCellType() != Cell.CELL_TYPE_NUMERIC) {
             CellReference cr = new CellReference(celda);
-            throw new ValidacionPS2("Error leyendo la celda "+cr.formatAsString());
+            throw new ValidacionPS2("Error leyendo la celda " + cr.formatAsString());
         }
         return true;
     }

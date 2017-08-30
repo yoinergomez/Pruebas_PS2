@@ -23,21 +23,35 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author Pc1
+ * Clase de prueba para ArchivoIO
+ * @author Jhonatan Orozco Blandón
+ * @date 2017/08/29
+ * @version v1
  */
 public class ArchivoIOTest {
 
     public ArchivoIO archivoIO;
 
+    /**
+     * Constructor de la clase
+     */
     public ArchivoIOTest() {
     }
 
+    /**
+     * Método para incializar objetos que se ejecuten en todas las pruebas.
+     */
     @Before
     public void inicializar() {
         archivoIO = new ArchivoIO();
     }
 
+    /**
+     * Retorna la ruta del recurso que se quiere encontrar.
+     * @param nombreRecurso
+     * @return
+     * @throws URISyntaxException 
+     */
     public String corregirPath(String nombreRecurso) throws URISyntaxException {
         String path = this.getClass().getClassLoader().getResource(nombreRecurso)
                 .toURI().toString();
@@ -47,6 +61,12 @@ public class ArchivoIOTest {
         return path.substring(5);
     }
 
+    /**
+     * Compara que las dos objetos LDL sean inguales.
+     * @param l1
+     * @param l2
+     * @return 
+     */
     public boolean iguales(LDL l1, LDL l2) {
         NodoDoble nodoL1 = l1.getPrimerNodo();
         NodoDoble nodoL2 = l2.getPrimerNodo();
@@ -146,6 +166,13 @@ public class ArchivoIOTest {
         assertNotNull(w);
     }
 
+    /**
+     * Caso de prueba leyendo datos desde el archivo de Excel.
+     * @throws URISyntaxException
+     * @throws ValidacionPS2
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     @Test
     public void testConvertirExcelALDL() throws URISyntaxException,
             ValidacionPS2, FileNotFoundException, IOException {
@@ -184,5 +211,70 @@ public class ArchivoIOTest {
         assertTrue(b1 && b2);
 
     }
+    
+    
+    /**
+     * Caso de prueba cuando en el archivo existe un registro de la columna 'Y' 
+     * vacio.
+     * @throws java.net.URISyntaxException
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     **/
+    @Test(expected = ValidacionPS2.class)
+    public void testDatoColumnaYVacio() throws URISyntaxException, ValidacionPS2,
+            IOException{
+     
+        String path = corregirPath("datosColumnaYIncompleta.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+
+    }
+    
+    
+    /**
+     * Caso de prueba cuando en el archivo existe un registro de la columna 'X' 
+     * vacio.
+     * @throws java.net.URISyntaxException
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     **/
+    @Test(expected = ValidacionPS2.class)
+    public void testDatoColumnaXVacio() throws URISyntaxException, ValidacionPS2,
+            IOException{
+     
+        String path = corregirPath("datosColumnaXIncompleta.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+ 
+    }
+    
+    
+     /**
+     * Caso de prueba cuando en el archivo no existen x de prueba para la regresión.
+     * @throws java.net.URISyntaxException
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     **/
+    @Test(expected = ValidacionPS2.class)
+    public void testArchivoVacio() throws URISyntaxException, ValidacionPS2,
+            IOException{
+     
+        String path = corregirPath("archivoVacio.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+ 
+    }
+    
+    /**
+     * Caso de prueba para cuando se encuentra en el archivo de Excel un valor
+     * no númerico.
+     * @throws java.net.URISyntaxException
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     */
+    @Test(expected = ValidacionPS2.class)
+    public void testLeerDatoNoNumerico() throws URISyntaxException, 
+            ValidacionPS2, IOException{
+         String path = corregirPath("archivoNoNumerico.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+    }
+    
 
 }
