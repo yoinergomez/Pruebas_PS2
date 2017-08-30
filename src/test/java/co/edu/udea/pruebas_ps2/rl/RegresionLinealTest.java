@@ -33,7 +33,7 @@ public class RegresionLinealTest {
     }
 
     /**
-     * Test of getB1 method, of class RegresionLineal.
+     * Test para obtener el resultado del coeficiente B1
      */
     @Test
     public void testGetB1() {
@@ -44,7 +44,8 @@ public class RegresionLinealTest {
     }
     
     /**
-     * Test of getB1 method, of class RegresionLineal.
+     * Test para obtener el resultado del coeficiente B1 cuando es una lista
+     * vacía
      */
     @Test
     public void testGetB1Nulo() {
@@ -56,7 +57,7 @@ public class RegresionLinealTest {
     }
 
     /**
-     * Test of getB0 method, of class RegresionLineal.
+     * Test para obtener el resultado del coeficiente B0
      */
     @Test
     public void testGetB0() {
@@ -67,7 +68,8 @@ public class RegresionLinealTest {
     }
     
     /**
-     * Test of getB0 method, of class RegresionLineal.
+     * Test para obtener el resultado del coeficiente B0 cuando la lista es 
+     * vacía
      */
     @Test
     public void testGetB0Nulo() {
@@ -79,7 +81,7 @@ public class RegresionLinealTest {
     }
 
     /**
-     * Test of getRxy method, of class RegresionLineal.
+     * Test para obtener el resultado del coeficiente de correlación XY
      */
     @Test
     public void testGetRxy() {
@@ -90,7 +92,8 @@ public class RegresionLinealTest {
     }
     
     /**
-     * Test of getRxy method, of class RegresionLineal.
+     * Test para obtener el resultado del coeficiente de correlacón cuando la 
+     * lista es vacía
      */
     @Test
     public void testGetRxyNulo() {
@@ -102,7 +105,7 @@ public class RegresionLinealTest {
     }
 
     /**
-     * Test of getR2 method, of class RegresionLineal.
+     * Test para obtener la medida estadística  R2
      */
     @Test
     public void testGetR2() {
@@ -113,7 +116,7 @@ public class RegresionLinealTest {
     }
     
     /**
-     * Test of getR2 method, of class RegresionLineal.
+     * Test para obtener la medida estadística  R2 cuando la lista es vacía
      */
     @Test
     public void testGetR2lNulo() {
