@@ -160,7 +160,6 @@ public class ArchivoIO {
     public boolean esCeldaValida(Cell celda) throws ValidacionPS2 {
         if (celda == null || celda.getCellType() == Cell.CELL_TYPE_BLANK) {
             CellReference cr = new CellReference(celda);
-            System.out.println("entre al false de celda vacia" + cr.formatAsString());
             return false;
         } else if (celda.getCellType() != Cell.CELL_TYPE_NUMERIC) {
             CellReference cr = new CellReference(celda);

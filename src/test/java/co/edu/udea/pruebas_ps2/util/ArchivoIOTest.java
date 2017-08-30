@@ -262,6 +262,21 @@ public class ArchivoIOTest {
  
     }
     
+     /**
+     * Caso de prueba cuando no existen en el archivo de Excel x de prueba para 
+     * validar la regresión.
+     * @throws java.net.URISyntaxException
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     */
+    @Test(expected = ValidacionPS2.class)
+    public void testColumnaXPruebaVacia() throws URISyntaxException, 
+            ValidacionPS2, IOException{
+         String path = corregirPath("datosSinXDePrueba.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+    }
+    
+    
     /**
      * Caso de prueba para cuando se encuentra en el archivo de Excel un valor
      * no númerico.
