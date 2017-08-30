@@ -9,11 +9,9 @@ import co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -60,5 +58,27 @@ public class ArchivoIOTest {
         assertTrue(f.exists());
     }
     
+    
+    @Test
+    public void testAbrirArchivosExcel() throws FileNotFoundException,
+            ValidacionPS2, URISyntaxException {
+        String path = corregirPath("prueba.xls");
+        File f = archivoIO.encontrarArchivo(path);
+        String ext = FilenameUtils.getExtension(f.getName());
+        assertArrayEquals("xls".toCharArray(), ext.toCharArray());
+    }
+
+    /**
+     *
+     * @throws FileNotFoundException
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.net.URISyntaxException
+     */
+    @Test(expected = ValidacionPS2.class)
+    public void testAbrirArchivoDistintoExcel() throws FileNotFoundException,
+            ValidacionPS2, URISyntaxException {
+        String path = corregirPath("prueba.txt");
+        archivoIO.encontrarArchivo(path);
+    }
     
 }

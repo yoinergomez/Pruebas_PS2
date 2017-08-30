@@ -7,12 +7,16 @@ package co.edu.udea.pruebas_ps2.util;
 
 import co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * Clase que se encarga de manejar la lectura y escritura de archivos.
@@ -23,6 +27,13 @@ import org.apache.poi.ss.usermodel.Row;
  */
 public class ArchivoIO {
 
+    /**
+     * Método que retorna el archivo que coincide con el nombre pasado como parametro.
+     * @param nombreArchivo Ruta del archivo que se quiere encontrar
+     * @return
+     * @throws FileNotFoundException
+     * @throws ValidacionPS2 
+     */
     public File encontrarArchivo(String nombreArchivo) throws FileNotFoundException,
             ValidacionPS2 {
         File f = new File(nombreArchivo);
@@ -37,5 +48,6 @@ public class ArchivoIO {
 
         return f;
     }
+    
     
 }
