@@ -31,7 +31,29 @@ public class AritmeticaLDLTest {
         lista.insertar(new NodoDoble(new Tupla(new Double("10.56"), new Double("21.12"))));
         lista.insertar(new NodoDoble(new Tupla(new Double("19.44"), new Double("38.88"))));
     }
-
+    
+    /**
+     * Prueba que la funcion promedio retorne el valor correspodiente 
+     * con datos en la posición X
+     */
+    @Test
+    public void testPromedioX() {
+        lista.imprimirLista();
+        Double resultado = instancia.promedio(lista, 1);
+        assertEquals(new Double("16.666666666666668"), resultado);
+    }
+    
+     /**
+     * Prueba que la funcion promedio retorne el valor correspodiente 
+     * con datos en la posición Y
+     */
+    @Test
+    public void testPromedioY() {
+        lista.imprimirLista();
+        Double resultado = instancia.promedio(lista, 2);
+        assertEquals(new Double("33.333333333333336"), resultado);
+    }
+    
     /**
      * Prueba que la funcion sumatoriaXY retorne el valor correspodiente 
      * con datos pertenecientes al conjunto de los reales
