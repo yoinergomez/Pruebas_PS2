@@ -110,7 +110,7 @@ public class RegresionLinealTest {
     @Test
     public void testGetR2() {
         Double esperado = new Double("1");
-        Double resultado = regresionLineal.getRxy();
+        Double resultado = regresionLineal.getR2();
         System.out.println("r2:"+resultado);
         assertEquals(esperado, resultado);
     }
@@ -122,7 +122,7 @@ public class RegresionLinealTest {
     public void testGetR2lNulo() {
         regresionLineal = new RegresionLineal(new LDL());
         Double esperado = null;
-        Double resultado = regresionLineal.getRxy();
+        Double resultado = regresionLineal.getR2();
         System.out.println("r2:"+resultado);
         assertEquals(esperado, resultado);
     }
