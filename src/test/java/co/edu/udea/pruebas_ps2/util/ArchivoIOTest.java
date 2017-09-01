@@ -291,5 +291,37 @@ public class ArchivoIOTest {
         ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
     }
     
-
+    /**
+     * 
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     * @throws java.net.URISyntaxException
+     * @throws java.lang.IllegalAccessException
+     */
+    @Test
+    public void testGenerarResultados() throws ValidacionPS2, IOException, 
+            URISyntaxException, IllegalArgumentException, IllegalAccessException{
+        String path = corregirPath("test1.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+        File f=archivoIO.escribirResultados(datos,path);
+        assertTrue(f.exists());
+        
+    }
+    
+      /**
+     * 
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     * @throws java.net.URISyntaxException
+     * @throws java.lang.IllegalAccessException
+     */
+    @Test
+    public void testResultadosRegresionEnUnFilaEnBlanco() throws ValidacionPS2, 
+            IOException,URISyntaxException, IllegalArgumentException, IllegalAccessException{
+        String path = corregirPath("archivoCon2Tuplas.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+        File f=archivoIO.escribirResultados(datos,path);
+        assertTrue(f.exists());
+        
+    }
 }

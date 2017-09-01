@@ -8,10 +8,12 @@ package co.edu.udea.pruebas_ps2.util;
 import co.edu.udea.pruebas_ps2.ldl.LDL;
 import co.edu.udea.pruebas_ps2.ldl.NodoDoble;
 import co.edu.udea.pruebas_ps2.modelo.Tupla;
+import co.edu.udea.pruebas_ps2.rl.RegresionLineal;
 import co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import java.lang.reflect.*;
+import java.net.URISyntaxException;
+import org.apache.commons.lang.SystemUtils;
 
 /**
  * Clase que se encarga de manejar la lectura y escritura de archivos.
@@ -33,8 +38,13 @@ import org.apache.poi.ss.util.CellReference;
  */
 public class ArchivoIO {
 
-    private Sheet sheet;
     private Workbook workbook;
+    private Sheet sheet;
+    private ArrayList<Row> filas;
+
+    public ArchivoIO() {
+        filas = new ArrayList();
+    }
 
     /**
      * Método que retorna el archivo que coincide con el nombre pasado como
@@ -94,6 +104,7 @@ public class ArchivoIO {
         File f = encontrarArchivo(nombreArchivo);
         workbook = abrirLibroExcel(f);
         sheet = workbook.getSheetAt(0);
+        filas.clear();
         LDL datosRegresion = new LDL();
         LDL datosEstimacion = new LDL();
         ArrayList<LDL> datos = new ArrayList();
@@ -105,6 +116,7 @@ public class ArchivoIO {
         Iterator<Row> rowIterator = sheet.iterator();
         while (rowIterator.hasNext()) {
             Row fila = rowIterator.next();
+            filas.add(fila);
             Iterator<Cell> cellIterator = fila.cellIterator();
             t1 = new Tupla();
             t2 = new Tupla();
@@ -124,6 +136,8 @@ public class ArchivoIO {
 
                         case 2:
                             t2.setX(celda.getNumericCellValue());
+                            nodoT2 = new NodoDoble(t2);
+                            datosEstimacion.insertar(nodoT2);
                             existeXprueba = true;
                             break;
                     }
@@ -139,9 +153,8 @@ public class ArchivoIO {
                         + "incompleto.La y esta vacia");
             }
             nodoT1 = new NodoDoble(t1);
-            nodoT2 = new NodoDoble(t2);
+
             datosRegresion.insertar(nodoT1);
-            datosEstimacion.insertar(nodoT2);
 
         }
         if (!existeDatos) {
@@ -157,6 +170,14 @@ public class ArchivoIO {
         return datos;
     }
 
+    /**
+     * Revisa que la celda no sea nula,que no este vacia y que sea de tupo
+     * númerico. Si se cumplen todas esas condiciones retorna true.
+     *
+     * @param celda
+     * @return
+     * @throws ValidacionPS2
+     */
     public boolean esCeldaValida(Cell celda) throws ValidacionPS2 {
         if (celda == null || celda.getCellType() == Cell.CELL_TYPE_BLANK) {
             CellReference cr = new CellReference(celda);
@@ -166,6 +187,102 @@ public class ArchivoIO {
             throw new ValidacionPS2("Error leyendo la celda " + cr.formatAsString());
         }
         return true;
+    }
+
+    public File escribirResultados(ArrayList<LDL> datos, String nombreArchivo) 
+            throws IllegalArgumentException, IllegalAccessException, 
+            URISyntaxException,FileNotFoundException, IOException {
+        LDL datosRegresion = datos.get(0);
+        LDL datosEstimacion = datos.get(1);
+        RegresionLineal regresion = new RegresionLineal(datosRegresion);
+        escribirResultadosRegresion(regresion);
+        escribirDatosEstimados(datosEstimacion, regresion);
+        FileOutputStream outputStream = new FileOutputStream(nombreArchivo);
+        workbook.write(outputStream);
+        File f = new File(nombreArchivo);
+        return f;
+    }
+
+    /**
+     *
+     * @param nombreItem
+     * @param valor
+     * @param s
+     * @param indiceFila
+     */
+    private void escribirItem(String nombreItem, Double valor, int indiceFila) {
+        Row r;
+        int numeroFilas = filas.size();
+        if (indiceFila < numeroFilas) {
+            r = filas.get(indiceFila);
+        } else {
+            r = sheet.createRow(indiceFila);
+        }
+        Cell c = r.createCell(5);
+        c.setCellValue(nombreItem);
+        c = r.createCell(6);
+        c.setCellValue(valor);
+
+    }
+
+    /**
+     *
+     * @param datosEstimacion
+     * @param rg
+     */
+    private void escribirDatosEstimados(LDL datosEstimacion, RegresionLineal rg) {
+        NodoDoble p = datosEstimacion.getPrimerNodo();
+        Row r;
+        Cell c;
+        int i = 0;
+        double x;
+        double y;
+        Tupla t;
+        double b0 = rg.getB0();
+        double b1 = rg.getB1();
+        while (p != null) {
+            t = p.getDato();
+            //System.out.println("Tripleta con x:"+ t.getX()+" y:"+t.getY());
+            x = p.getDato().getX();
+            y = b0 + b1 * x;
+            r = filas.get(i);
+            c = r.createCell(i);
+            c.setCellValue(y);
+            i++;
+            p = datosEstimacion.siguienteNodo(p);
+        }
+
+    }
+
+    /**
+     *
+     * @param datosEstimacion
+     * @param rg
+     */
+    private void escribirResultadosRegresion(RegresionLineal rg) {
+        double b0 = rg.getB0();
+        double b1 = rg.getB1();
+        //escribiendo resultados de la regresión
+        escribirItem("B0", b0, 0);
+        escribirItem("B1", b1, 1);
+        escribirItem("Rxy", rg.getRxy(), 2);
+        escribirItem("r^2", rg.getR2(), 3);
+    }
+
+    /**
+     * Retorna la ruta del recurso que se quiere encontrar.
+     *
+     * @param nombreRecurso
+     * @return
+     * @throws URISyntaxException
+     */
+    public String corregirPath(String nombreRecurso) throws URISyntaxException {
+        String path = this.getClass().getClassLoader().getResource(nombreRecurso)
+                .toURI().toString();
+        if (SystemUtils.IS_OS_WINDOWS) {
+            return path.substring(6);
+        }
+        return path.substring(5);
     }
 
 }
