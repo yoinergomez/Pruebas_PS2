@@ -246,7 +246,7 @@ public class ArchivoIO {
             x = p.getDato().getX();
             y = b0 + b1 * x;
             r = filas.get(i);
-            c = r.createCell(i);
+            c = r.createCell(3);
             c.setCellValue(y);
             i++;
             p = datosEstimacion.siguienteNodo(p);

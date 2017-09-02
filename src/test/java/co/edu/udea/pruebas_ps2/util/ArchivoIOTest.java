@@ -324,4 +324,58 @@ public class ArchivoIOTest {
         assertTrue(f.exists());
         
     }
+    
+     /**
+     * Calcular los parametros de la regresión y el coeficiente de correlación
+     * entre el tamaño del proxy estimado y el valor añadido de la tabla 1.  
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     * @throws java.net.URISyntaxException
+     * @throws java.lang.IllegalAccessException
+     */
+    @Test
+    public void testGenerarResultadosTest2() throws ValidacionPS2, IOException, 
+            URISyntaxException, IllegalArgumentException, IllegalAccessException{
+        String path = corregirPath("test2.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+        File f=archivoIO.escribirResultados(datos,path);
+        assertTrue(f.exists());
+        
+    }
+    
+    /**
+     * Calcular los parametros de la regresión y el coeficiente de correlación
+     * entre el tamaño del proxy estimado y el valor añadido de la tabla 1.  
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     * @throws java.net.URISyntaxException
+     * @throws java.lang.IllegalAccessException
+     */
+    @Test
+    public void testGenerarResultadosTest4() throws ValidacionPS2, IOException, 
+            URISyntaxException, IllegalArgumentException, IllegalAccessException{
+        String path = corregirPath("test4.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+        File f=archivoIO.escribirResultados(datos,path);
+        assertTrue(f.exists());
+        
+    }
+    
+    /**
+     * Calcular los parametros de la regresión y el coeficiente de correlación
+     * entre el tamaño del proxy estimado y el valor añadido de la tabla 1.  
+     * @throws co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2
+     * @throws java.io.IOException
+     * @throws java.net.URISyntaxException
+     * @throws java.lang.IllegalAccessException
+     */
+    @Test
+    public void testGenerarResultadosTest3() throws ValidacionPS2, IOException, 
+            URISyntaxException, IllegalArgumentException, IllegalAccessException{
+        String path = corregirPath("test3.xls");
+        ArrayList<LDL> datos = archivoIO.convertirExcelALDL(path);
+        File f=archivoIO.escribirResultados(datos,path);
+        assertTrue(f.exists());
+        
+    }
 }
