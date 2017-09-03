@@ -37,4 +37,4 @@ El desarrollo del proyecto requirió una inversión de tiempo de 23.5 horas en b
 ## Ejecución del proyecto
 Teniendo el proyecto cargado en NetBeans se procede a instalar las dependencias con MAVEN debido a que el proyecto las necesita para un correcto funcionamiento.
 
-~~Describir el proceso de ejcución~~
+~~Describir el proceso de ejecución~~
