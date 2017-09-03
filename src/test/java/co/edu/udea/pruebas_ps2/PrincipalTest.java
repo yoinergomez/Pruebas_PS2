@@ -5,6 +5,13 @@
  */
 package co.edu.udea.pruebas_ps2;
 
+import co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,16 +23,21 @@ public class PrincipalTest {
     
     public PrincipalTest() {
     }
+    public String corregirPath(String nombreRecurso) throws URISyntaxException {
+        String path = this.getClass().getClassLoader().getResource(nombreRecurso)
+                .toURI().toString();
+        if (SystemUtils.IS_OS_WINDOWS) {
+            return path.substring(6);
+        }
+        return path.substring(5);
+    }
 
     /**
      * Test of main method, of class Principal.
      */
     @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        Principal.main(args);
-        // TODO review the generated test code and remove the default call to fail.
+    public void testMain() throws IOException, FileNotFoundException, ValidacionPS2, IllegalArgumentException, IllegalAccessException, URISyntaxException {
+        Principal p = new Principal();
     }
     
 }
