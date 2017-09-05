@@ -34,10 +34,17 @@ public class PrincipalTest {
 
     /**
      * Test of main method, of class Principal.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testMain() throws IOException, FileNotFoundException, ValidacionPS2, IllegalArgumentException, IllegalAccessException, URISyntaxException {
+    public void testMain() throws Exception {
         Principal p = new Principal();
+        String data = corregirPath("test.xls");
+        String[] args = null;
+        final InputStream original = System.in;
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Principal.main(args);
+        System.setIn(original);
     }
     
 }
