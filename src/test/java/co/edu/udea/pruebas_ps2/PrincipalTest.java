@@ -5,6 +5,13 @@
  */
 package co.edu.udea.pruebas_ps2;
 
+import co.edu.udea.pruebas_ps2.util.excepcion.ValidacionPS2;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import org.apache.commons.lang.SystemUtils;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,16 +23,30 @@ public class PrincipalTest {
     
     public PrincipalTest() {
     }
+    
+    public String corregirPath(String nombreRecurso) throws URISyntaxException {
+        String path = this.getClass().getClassLoader().getResource(nombreRecurso)
+                .toURI().toString();
+        if (SystemUtils.IS_OS_WINDOWS) {
+            return path.substring(6);
+        }
+        return path.substring(5);
+    }
 
     /**
      * Test of main method, of class Principal.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testMain() {
-        System.out.println("main");
+    public void testMain() throws Exception {
+        Principal p = new Principal();
+        String data = corregirPath("test.xls");
+
         String[] args = null;
+        final InputStream original = System.in;
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
         Principal.main(args);
-        // TODO review the generated test code and remove the default call to fail.
+        System.setIn(original);
     }
     
 }
