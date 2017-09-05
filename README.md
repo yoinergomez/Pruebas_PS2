@@ -47,7 +47,8 @@ Se utilizó la herramienta de wakatime la cual nos permitió el conteo automáti
 
 
 ## Ejecución del proyecto
-Teniendo el proyecto cargado en NetBeans se procede a instalar las dependencias con MAVEN debido a que el proyecto las necesita para un correcto funcionamiento.
+Teniendo el proyecto cargado en NetBeans se procede a instalar las dependencias con MAVEN debido a que el proyecto las necesita para un correcto funcionamiento.  
+Otra alternativa de cargar el proyecto es ejecutando el archivo _.jar_ en una consola o terminal donde en dicho archivo se encuentra empaquetado todo el programa. 
 
 - Digite la ruta donde se encuentra ubicado el archivo excel que contiene los datos para calcular la regresión y predecir los nuevos valores.   
 Es importante que el archivo posea un formato indicado para su correcta lectura:

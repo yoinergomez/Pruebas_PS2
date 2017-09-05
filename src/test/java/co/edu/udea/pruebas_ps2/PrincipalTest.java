@@ -23,6 +23,7 @@ public class PrincipalTest {
     
     public PrincipalTest() {
     }
+    
     public String corregirPath(String nombreRecurso) throws URISyntaxException {
         String path = this.getClass().getClassLoader().getResource(nombreRecurso)
                 .toURI().toString();
@@ -38,6 +39,13 @@ public class PrincipalTest {
     @Test
     public void testMain() throws IOException, FileNotFoundException, ValidacionPS2, IllegalArgumentException, IllegalAccessException, URISyntaxException {
         Principal p = new Principal();
+
+        String data = corregirPath("datosRegresion.xls");
+        String[] args = null;
+        final InputStream original = System.in;
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        Principal.main(args);
+        System.setIn(original);
     }
     
 }
