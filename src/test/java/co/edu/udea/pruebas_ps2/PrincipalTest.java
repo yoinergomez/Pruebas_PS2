@@ -23,6 +23,7 @@ public class PrincipalTest {
     
     public PrincipalTest() {
     }
+    
     public String corregirPath(String nombreRecurso) throws URISyntaxException {
         String path = this.getClass().getClassLoader().getResource(nombreRecurso)
                 .toURI().toString();
@@ -40,6 +41,7 @@ public class PrincipalTest {
     public void testMain() throws Exception {
         Principal p = new Principal();
         String data = corregirPath("test.xls");
+
         String[] args = null;
         final InputStream original = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
