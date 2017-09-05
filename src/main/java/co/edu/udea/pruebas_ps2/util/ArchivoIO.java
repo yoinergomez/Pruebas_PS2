@@ -25,9 +25,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
-import java.lang.reflect.*;
 import java.net.URISyntaxException;
-import org.apache.commons.lang.SystemUtils;
 
 /**
  * Clase que se encarga de manejar la lectura y escritura de archivos.
@@ -189,6 +187,20 @@ public class ArchivoIO {
         return true;
     }
 
+    /**
+     * Recibe los datos, calcula la regresión y escribe en el archivo de Excel los
+     * resultados.
+     * @param datos Los datos de la regresion y los x de prueba, para validar la 
+     * regresión.
+     * @param nombreArchivo Nombre del archivo de Excel donde se escriben los 
+     * resultados.
+     * @return
+     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
+     * @throws URISyntaxException
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public File escribirResultados(ArrayList<LDL> datos, String nombreArchivo) 
             throws IllegalArgumentException, IllegalAccessException, 
             URISyntaxException,FileNotFoundException, IOException {
@@ -204,11 +216,11 @@ public class ArchivoIO {
     }
 
     /**
-     *
-     * @param nombreItem
-     * @param valor
-     * @param s
-     * @param indiceFila
+     * Método que escribe en el archivo de Excel el nombre del item con su 
+     * respectivo valor.
+     * @param nombreItem Nombre del item.
+     * @param valor Valor del item
+     * @param indiceFila Indice de la fila donde se quiere escribir.
      */
     private void escribirItem(String nombreItem, Double valor, int indiceFila) {
         Row r;
@@ -226,9 +238,9 @@ public class ArchivoIO {
     }
 
     /**
-     *
-     * @param datosEstimacion
-     * @param rg
+     * Método que escribe en el archivo de Excel los 'y' estimados por la regresión.
+     * @param datosEstimacion Lista de los x con los que se verifica la regresión.
+     * @param rg La regresión lineal.
      */
     private void escribirDatosEstimados(LDL datosEstimacion, RegresionLineal rg) {
         NodoDoble p = datosEstimacion.getPrimerNodo();
@@ -242,7 +254,6 @@ public class ArchivoIO {
         double b1 = rg.getB1();
         while (p != null) {
             t = p.getDato();
-            //System.out.println("Tripleta con x:"+ t.getX()+" y:"+t.getY());
             x = p.getDato().getX();
             y = b0 + b1 * x;
             r = filas.get(i);
@@ -255,34 +266,18 @@ public class ArchivoIO {
     }
 
     /**
-     *
-     * @param datosEstimacion
-     * @param rg
+     * Método que escribe en el archivo de Excel los resultados de aplicar la 
+     * regresión al conjunto de datos.
+     * @param rg La regresión lineal.
      */
     private void escribirResultadosRegresion(RegresionLineal rg) {
         double b0 = rg.getB0();
         double b1 = rg.getB1();
-        //escribiendo resultados de la regresión
         escribirItem("B0", b0, 0);
         escribirItem("B1", b1, 1);
         escribirItem("Rxy", rg.getRxy(), 2);
         escribirItem("r^2", rg.getR2(), 3);
     }
 
-    /**
-     * Retorna la ruta del recurso que se quiere encontrar.
-     *
-     * @param nombreRecurso
-     * @return
-     * @throws URISyntaxException
-     */
-    public String corregirPath(String nombreRecurso) throws URISyntaxException {
-        String path = this.getClass().getClassLoader().getResource(nombreRecurso)
-                .toURI().toString();
-        if (SystemUtils.IS_OS_WINDOWS) {
-            return path.substring(6);
-        }
-        return path.substring(5);
-    }
 
 }
